@@ -72,7 +72,10 @@ const words = [
 // high record              `
 // player
 // radio
-// standardize code: constants, separate classes, private methods
+// add info about author and credentials/sources
+// standardize code: constants, separate classes, private
+// various dictionaries
+// add webpack/gulp
 
 function main() {
   canvas.style.display = "none";
@@ -92,7 +95,7 @@ function start() {
   infoTableElement.style.display = "block";
 
   const interface = new Interface({ scores: 0, lives: 3 });
-  const player = new Player({ position: { x: canvas.width / 2, y: canvas.height }, radius: 75 });
+  const player = new Player({ position: { x: canvas.width / 2, y: canvas.height }, radius: 125 });
   const target = new Bubble({ position: { x: 900, y: 200 }, velocity: { x: 0, y: 0 }, text: "cat" });
   const cleaner = new Cleaner();
 
@@ -150,6 +153,8 @@ function start() {
     for (let i = projectiles.length - 1; i >= 0; i--) {
       const projectile = projectiles[i];
       projectile.update();
+      player.draw();
+      player.shootEffect();
 
       //  collect projectiles garbage
       if (projectile.position.y < 0) {
@@ -284,7 +289,8 @@ function start() {
   });
 }
 
-main();
+// main();
+start();
 
 // game over
 function gameOver(animationFrameID, intervalID, interface) {
