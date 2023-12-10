@@ -1,10 +1,11 @@
 class Interface {
-  constructor({ scores, lives }) {
+  constructor({ scores, lives, dictionaryName }) {
     this.style = { fillStyle: "red", shadowColor: "red" };
     this.__isBubbleMissed = false;
     this.__scores = scores;
     this.__lives = lives;
-    this.__highScore = localStorage.getItem("high_score") || 0;
+    this.__dictionaryName = dictionaryName;
+    this.__highScore = localStorage.getItem(`${this.__dictionaryName}_high_score`) || 0;
   }
 
   #draw() {
@@ -89,6 +90,7 @@ class Interface {
     return str;
   }
 
+  // manage scores
   getHighScore() {
     if (this.__scores > this.__highScore) {
       this.#setHighScore(this.__scores);
@@ -100,7 +102,7 @@ class Interface {
   }
 
   #setHighScore(newHighScore) {
-    localStorage.setItem("high_score", newHighScore);
+    localStorage.setItem(`${this.__dictionaryName}_high_score`, newHighScore);
     this.__highScore = newHighScore;
     console.log("set high score: ", newHighScore);
   }

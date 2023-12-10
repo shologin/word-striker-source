@@ -8,6 +8,7 @@ const livesElement = document.getElementById("lives");
 const playBtnElement = document.getElementById("playBtn");
 const aboutBtnElement = document.getElementById("aboutBtn");
 const mainMenuTableElement = document.getElementById("mainMenuTable");
+const dictionarySelectElement = document.getElementById("dictionarySelect");
 const aboutBadgeElement = document.getElementById("aboutBadge");
 const closeAboutBtnElement = document.getElementById("closeAboutBtn");
 const gameOverTableElement = document.getElementById("gameOverTable");
@@ -22,47 +23,8 @@ canvas.height = window.innerHeight;
 const BACKGROUND_COLOR = "rgba(5, 22, 26, 0.2)"; // trails (need to use call cleaner.update() in bubbles loop)
 // const BACKGROUND_COLOR = "#05161a";           // no trails
 const PROJECTILE_SPEED = 700;
-const BUBBLES_SPAWN_SPEED = 1000;
+const BUBBLES_SPAWN_FREQUENCY = 1000;
 const BUBBLES_SPEED = 1;
-
-const words = [
-  "cs50",
-  "array",
-  "code",
-  "C",
-  "python",
-  "HTTP",
-  "TCP",
-  "IP",
-  "flask",
-  "memory",
-  "scratch",
-  "fiftyville",
-  "mario",
-  "django",
-  "AI",
-  "queue",
-  "stack",
-  "heap",
-  "sort",
-  "bubble",
-  "merge",
-  "git",
-  "bootstrap",
-  "HTML",
-  "CSS",
-  "javascript",
-  "science",
-  "pointer",
-  "halloween",
-  "dracula",
-  "duck",
-  "debug",
-  "finance",
-  "tideman",
-  "SQL",
-  "ninja",
-];
 
 // bubble hit effect        `
 // bubble crash effect      `
@@ -75,17 +37,33 @@ const words = [
 // high record              `
 // player                   `
 // add info about author and credentials/sources              `
-// standardize code: constants, separate classes, private
-// various dictionaries
+// standardize code: constants, separate classes, private     `
+// various dictionaries                                       `
+// add "my records" page
 // add webpack/gulp
 
+//establish dictionary manager
+const dictionariesManager = new DictionariesManager(dictionaries);
+
+// main menu - app launchpoint
 function main() {
   canvas.style.display = "none";
   gameOverTableElement.style.display = "none";
   infoTableElement.style.display = "none";
   backgroundElement.style.display = "block";
   mainMenuTableElement.style.display = "flex";
+
+  // handle dictionary choice
+  dictionarySelectElement.innerHTML = dictionariesManager.renderDictionariesList();
+  dictionarySelectElement.value = dictionariesManager.getDictionaryName();
 }
+
+// handle select dictionary
+dictionarySelectElement.addEventListener("change", (event) => {
+  if (!dictionariesManager.setChosenDictionary(event.target.value)) {
+    console.log("Set wrong dictionary");
+  }
+});
 
 // start game
 function start() {
@@ -96,10 +74,12 @@ function start() {
   gameOverTableElement.style.display = "none";
   infoTableElement.style.display = "block";
 
-  const interface = new Interface({ scores: 0, lives: 3 });
+  const interface = new Interface({ scores: 0, lives: 3, dictionaryName: dictionariesManager.getDictionaryName() });
   const player = new Player({ position: { x: canvas.width / 2, y: canvas.height }, radius: 125 });
-  const target = new Bubble({ position: { x: 900, y: 200 }, velocity: { x: 0, y: 0 }, text: "cat" });
   const cleaner = new Cleaner();
+
+  // get chosen dictionary
+  const words = dictionariesManager.getDictionary();
 
   // set info table
   scoresElement.innerHTML = interface.getScores();
@@ -138,7 +118,7 @@ function start() {
         })
       );
     }
-  }, BUBBLES_SPAWN_SPEED);
+  }, BUBBLES_SPAWN_FREQUENCY);
 
   // animate game
   function animate() {
@@ -147,7 +127,6 @@ function start() {
     c.fillStyle = BACKGROUND_COLOR;
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.draw();
-    target.draw();
     interface.update();
 
     // handle projectiles
@@ -275,16 +254,14 @@ function start() {
 
     // additional keys
     switch (e.code) {
-      case "Space":
-        shoot(target);
-        console.log(bubbles);
-        interface.bubbleMissed();
-        break;
       case "Digit0":
         findTarget("0");
         break;
       case "Digit5":
         findTarget("5");
+        break;
+      case "Space":
+        console.log("Hello there!");
         break;
     }
   });
@@ -302,6 +279,7 @@ function gameOver(animationFrameID, intervalID, interface) {
   infoTableElement.style.display = "none";
 }
 
+// animate sliding
 function fadeAnimation(block1, block2, time) {
   block1.classList.add("animation-fade");
   setTimeout(() => {
@@ -319,6 +297,7 @@ function fadeAnimation(block1, block2, time) {
   }, time);
 }
 
+// activate buttons
 playBtnElement.addEventListener("click", start);
 playAgainBtnElement.addEventListener("click", start);
 gameOverMenuLinkBtnElement.addEventListener("click", main);

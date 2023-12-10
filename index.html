@@ -10,15 +10,19 @@
   <body>
     <div class="game prevent-select">
       <canvas id="canvas"></canvas>
+
       <div class="info-table" id="infoTable">
         <p class="info-scores">Scores: <span id="infoScores"></span></p>
         <div id="lives"></div>
       </div>
+
       <div class="main-menu glass-effect" id="mainMenuTable">
         <h1>Word Striker</h1>
         <button class="main-menu-playBtn" id="playBtn">Play</button>
+        <select class="main-menu-select" id="dictionarySelect"></select>
         <button class="about-btn" id="aboutBtn">About</button>
       </div>
+
       <div class="about-badge glass-effect" style="display: none" id="aboutBadge">
         <h2>About</h2>
         <div class="about-badge-content">
@@ -59,6 +63,7 @@
         </div>
         <button class="about-badge-closeBtn" id="closeAboutBtn">&times;</button>
       </div>
+
       <div class="game-over glass-effect" id="gameOverTable">
         <h2>Game over</h2>
         <div class="game-over-scores">
@@ -83,11 +88,13 @@
       <span></span>
       <span></span>
     </div>
+    <script src="./classes/DictionariesManager.js"></script>
     <script src="./classes/Interface.js"></script>
     <script src="./classes/Player.js"></script>
     <script src="./classes/Bubble.js"></script>
     <script src="./classes/Projectile.js"></script>
     <script src="./classes/Cleaner.js"></script>
+    <script src="./dictionaries.js"></script>
     <script src="./main.js"></script>
   </body>
 </html>
