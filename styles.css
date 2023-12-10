@@ -1,16 +1,25 @@
 h1,
 h2,
+h3,
+h4,
 p,
+a,
 body {
   margin: 0;
   padding: 0;
+  text-decoration: none;
 }
+
 body {
   overflow: hidden;
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.25rem; /* 20px */
   line-height: 1.75rem; /* 28px */
   color: white;
+}
+
+a {
+  color: #71717a;
 }
 
 .game {
@@ -104,11 +113,75 @@ body {
   background: transparent;
   border: 2px solid #52525b;
   cursor: pointer;
+  transition: all 0.08s ease;
 }
 
 .about-btn:hover {
   color: inherit;
   border-color: white;
+}
+
+/* about author badge */
+.about-badge {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  padding: 25px 25px;
+  width: 480px;
+  height: 280px;
+  position: absolute;
+  top: 45vh;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 16px;
+  border: 1px solid rgba(0, 0, 0, 0.28);
+}
+
+.about-badge-closeBtn {
+  color: #52525b;
+  background: transparent;
+  border: 1px solid #52525b;
+  border-radius: 4px;
+  padding: 2px 12px;
+  font-size: 32px;
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer;
+  transition: all 0.08s ease;
+}
+
+.about-badge-closeBtn:hover {
+  border-color: white;
+  color: white;
+}
+
+.about-badge-content {
+  display: flex;
+  gap: 80px;
+  font-size: 0.875rem; /* 14px */
+  line-height: 1.25rem; /* 20px */
+}
+
+.about-badge-description {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 240px;
+}
+
+.about-badge-credentials {
+  margin-top: 10px;
+}
+.about-badge-credentials h4 {
+  margin-bottom: 4px;
+}
+
+.about-badge-info {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
 /* game over */
@@ -222,4 +295,40 @@ body {
 
 .z-1 {
   z-index: 1;
+}
+
+.animation-fade {
+  animation-name: fade;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+.animation-appear {
+  animation-name: appear;
+  animation-duration: 0.3s;
+  animation-timing-function: ease;
+}
+
+@keyframes fade {
+  0% {
+    left: 50%;
+    opacity: 1;
+  }
+
+  100% {
+    left: 110%;
+    opacity: 0;
+  }
+}
+
+@keyframes appear {
+  0% {
+    left: -110%;
+    opacity: 0;
+  }
+
+  100% {
+    left: 50%;
+    opacity: 1;
+  }
 }

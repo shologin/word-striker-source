@@ -6,7 +6,10 @@ const infoTableElement = document.getElementById("infoTable");
 const scoresElement = document.getElementById("infoScores");
 const livesElement = document.getElementById("lives");
 const playBtnElement = document.getElementById("playBtn");
+const aboutBtnElement = document.getElementById("aboutBtn");
 const mainMenuTableElement = document.getElementById("mainMenuTable");
+const aboutBadgeElement = document.getElementById("aboutBadge");
+const closeAboutBtnElement = document.getElementById("closeAboutBtn");
 const gameOverTableElement = document.getElementById("gameOverTable");
 const gameOverScoreElement = document.getElementById("gameOverScore");
 const gameOverHighestElement = document.getElementById("gameOverHighest");
@@ -70,9 +73,8 @@ const words = [
 // game over                `
 // start game screen        `
 // high record              `
-// player
-// radio
-// add info about author and credentials/sources
+// player                   `
+// add info about author and credentials/sources              `
 // standardize code: constants, separate classes, private
 // various dictionaries
 // add webpack/gulp
@@ -105,7 +107,6 @@ function start() {
 
   const bubbles = [];
   const projectiles = [];
-  let isPaused = false;
 
   // spawning bubbles
   const intervalID = window.setInterval(() => {
@@ -289,8 +290,7 @@ function start() {
   });
 }
 
-// main();
-start();
+main();
 
 // game over
 function gameOver(animationFrameID, intervalID, interface) {
@@ -302,6 +302,25 @@ function gameOver(animationFrameID, intervalID, interface) {
   infoTableElement.style.display = "none";
 }
 
+function fadeAnimation(block1, block2, time) {
+  block1.classList.add("animation-fade");
+  setTimeout(() => {
+    // hide block 1
+    block1.classList.remove("animation-fade");
+    block1.style.display = "none";
+
+    // make visible block 2
+    block2.style.display = "flex";
+    block2.classList.add("animation-appear");
+
+    setTimeout(() => {
+      block2.classList.remove("animation-appear");
+    }, time);
+  }, time);
+}
+
 playBtnElement.addEventListener("click", start);
 playAgainBtnElement.addEventListener("click", start);
 gameOverMenuLinkBtnElement.addEventListener("click", main);
+aboutBtnElement.addEventListener("click", () => fadeAnimation(mainMenuTableElement, aboutBadgeElement, 300));
+closeAboutBtnElement.addEventListener("click", () => fadeAnimation(aboutBadgeElement, mainMenuTableElement, 300));

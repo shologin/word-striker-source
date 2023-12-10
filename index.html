@@ -9,7 +9,7 @@
   </head>
   <body>
     <div class="game prevent-select">
-      <canvas id="canvas"></canvas>      
+      <canvas id="canvas"></canvas>
       <div class="info-table" id="infoTable">
         <p class="info-scores">Scores: <span id="infoScores"></span></p>
         <div id="lives"></div>
@@ -17,7 +17,47 @@
       <div class="main-menu glass-effect" id="mainMenuTable">
         <h1>Word Striker</h1>
         <button class="main-menu-playBtn" id="playBtn">Play</button>
-        <button class="about-btn">About</button>
+        <button class="about-btn" id="aboutBtn">About</button>
+      </div>
+      <div class="about-badge glass-effect" style="display: none" id="aboutBadge">
+        <h2>About</h2>
+        <div class="about-badge-content">
+          <div class="about-badge-description">
+            <p>Boost up your typing skills with this game. Shoot the words as they appears.</p>
+            <p>If you have any suggestions about the game, feel free to contact me.</p>
+            <div class="about-badge-credentials">
+              <h4>Credentials</h4>
+              <p>
+                Animated background:
+                <a
+                  href="https://wweb.dev/resources/animated-css-background-generator"
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  >wweb.dev</a
+                >
+              </p>
+            </div>
+          </div>
+          <div class="about-badge-info">
+            <div>
+              <h4>Word Striker</h4>
+              <p>Version 1.0</p>
+            </div>
+            <div>
+              <a href="https://www.linkedin.com/in/shologin" target="_blank" rel="noopener noreferrer nofollow">
+                <img src="./assets/icons/linkedin_icon.svg" alt="linkedin" width="48" />
+              </a>
+              <a href="https://github.com/shologin" target="_blank" rel="noopener noreferrer nofollow">
+                <img src="./assets/icons/github_icon.svg" alt="github" width="48" />
+              </a>
+            </div>
+            <div>
+              <h4>Bogdan Shologin</h4>
+              <p>&copy; 2023 All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+        <button class="about-badge-closeBtn" id="closeAboutBtn">&times;</button>
       </div>
       <div class="game-over glass-effect" id="gameOverTable">
         <h2>Game over</h2>
