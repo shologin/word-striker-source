@@ -28,21 +28,6 @@ const PROJECTILE_SPEED = 700;
 const BUBBLES_SPAWN_FREQUENCY = 1000;
 const BUBBLES_SPEED = 1;
 
-// bubble hit effect        `
-// bubble crash effect      `
-// bubbles dropping effect  `
-// missed bubble effect     `
-// scores                   `
-// lives                    `
-// game over                `
-// start game screen        `
-// high record              `
-// player                   `
-// add info about author and credentials/sources              `
-// standardize code: constants, separate classes, private     `
-// various dictionaries                                       `
-// add webpack/gulp
-
 //establish dictionary manager
 const dictionariesManager = new DictionariesManager(dictionaries);
 
@@ -319,9 +304,3 @@ playAgainBtnElement.addEventListener("click", start);
 gameOverMenuLinkBtnElement.addEventListener("click", main);
 aboutBtnElement.addEventListener("click", () => fadeAnimation(mainMenuTableElement, aboutBadgeElement, 300));
 closeAboutBtnElement.addEventListener("click", () => fadeAnimation(aboutBadgeElement, mainMenuTableElement, 300));
-
-// canvasMenuLinkBtnElement.addEventListener("click", function sayHello() {
-//   const name = "Bogdan";
-//   alert(`hello, ${name}`);
-//   return canvasMenuLinkBtnElement.removeEventListener("click", sayHello);
-// });
