@@ -1,7 +1,7 @@
 class DictionariesManager {
   constructor(dictionaries) {
     this.__dictionaries = dictionaries;
-    this.__chosenDictionary = localStorage.getItem("dictionary") || "cs50";
+    this.__chosenDictionary = localStorage.getItem("dictionary") || "CS50";
   }
 
   renderDictionariesList() {
