@@ -88,6 +88,10 @@ a {
   transform: translate(-50%, -50%);
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.28);
+
+  @media screen and (max-width: 560px) {
+    width: 260px;
+  }
 }
 
 .main-menu h1 {
@@ -172,6 +176,12 @@ a {
   transform: translate(-50%, -50%);
   border-radius: 16px;
   border: 1px solid rgba(0, 0, 0, 0.28);
+
+  @media screen and (max-width: 560px) {
+    width: 260px;
+    height: auto;
+    padding: 15px 5px;
+  }
 }
 
 .about-badge-closeBtn {
@@ -198,6 +208,11 @@ a {
   gap: 80px;
   font-size: 0.875rem; /* 14px */
   line-height: 1.25rem; /* 20px */
+
+  @media screen and (max-width: 560px) {
+    flex-direction: column;
+    gap: 20px;
+  }
 }
 
 .about-badge-description {
