@@ -86,7 +86,6 @@ class Interface {
           />
         </svg>`;
     }
-    console.log("lives: ", this.__lives);
     return str;
   }
 
@@ -94,16 +93,13 @@ class Interface {
   getHighScore() {
     if (this.__scores > this.__highScore) {
       this.#setHighScore(this.__scores);
-      console.log("new record! ", this.__highScore);
       return `${this.__highScore} <span class="new-record-badge">New record!</span>`;
     }
-    console.log("get high score: ", this.__highScore);
     return this.__highScore;
   }
 
   #setHighScore(newHighScore) {
     localStorage.setItem(`${this.__dictionaryName}_high_score`, newHighScore);
     this.__highScore = newHighScore;
-    console.log("set high score: ", newHighScore);
   }
 }

@@ -5,9 +5,11 @@ const backgroundElement = document.getElementById("background");
 const infoTableElement = document.getElementById("infoTable");
 const scoresElement = document.getElementById("infoScores");
 const livesElement = document.getElementById("lives");
+const canvasMenuLinkBtnElement = document.getElementById("canvasMenuLinkBtn");
 const playBtnElement = document.getElementById("playBtn");
 const aboutBtnElement = document.getElementById("aboutBtn");
 const mainMenuTableElement = document.getElementById("mainMenuTable");
+const authorElement = document.getElementById("author");
 const dictionarySelectElement = document.getElementById("dictionarySelect");
 const aboutBadgeElement = document.getElementById("aboutBadge");
 const closeAboutBtnElement = document.getElementById("closeAboutBtn");
@@ -39,7 +41,6 @@ const BUBBLES_SPEED = 1;
 // add info about author and credentials/sources              `
 // standardize code: constants, separate classes, private     `
 // various dictionaries                                       `
-// add "my records" page
 // add webpack/gulp
 
 //establish dictionary manager
@@ -50,6 +51,7 @@ function main() {
   canvas.style.display = "none";
   gameOverTableElement.style.display = "none";
   infoTableElement.style.display = "none";
+  canvasMenuLinkBtnElement.style.display = "none";
   backgroundElement.style.display = "block";
   mainMenuTableElement.style.display = "flex";
 
@@ -67,12 +69,16 @@ dictionarySelectElement.addEventListener("change", (event) => {
 
 // start game
 function start() {
+  // author check
+  if (authorElement.innerHTML !== "Bogdan Shologin") return;
+
   // hide tables
   canvas.style.display = "block";
   backgroundElement.style.display = "none";
   mainMenuTableElement.style.display = "none";
   gameOverTableElement.style.display = "none";
   infoTableElement.style.display = "block";
+  canvasMenuLinkBtnElement.style.display = "block";
 
   const interface = new Interface({ scores: 0, lives: 3, dictionaryName: dictionariesManager.getDictionaryName() });
   const player = new Player({ position: { x: canvas.width / 2, y: canvas.height }, radius: 125 });
@@ -87,6 +93,7 @@ function start() {
 
   const bubbles = [];
   const projectiles = [];
+  let animationFrameID;
 
   // spawning bubbles
   const intervalID = window.setInterval(() => {
@@ -122,7 +129,7 @@ function start() {
 
   // animate game
   function animate() {
-    const animationFrameID = window.requestAnimationFrame(animate);
+    animationFrameID = window.requestAnimationFrame(animate);
 
     c.fillStyle = BACKGROUND_COLOR;
     c.fillRect(0, 0, canvas.width, canvas.height);
@@ -265,6 +272,14 @@ function start() {
         break;
     }
   });
+
+  // add click to the "home" button
+  canvasMenuLinkBtnElement.addEventListener("click", function homepageClickHandle() {
+    window.cancelAnimationFrame(animationFrameID);
+    clearInterval(intervalID);
+    main();
+    return canvasMenuLinkBtnElement.removeEventListener("click", homepageClickHandle);
+  });
 }
 
 main();
@@ -277,6 +292,7 @@ function gameOver(animationFrameID, intervalID, interface) {
   gameOverScoreElement.innerHTML = interface.getScores();
   gameOverHighestElement.innerHTML = interface.getHighScore();
   infoTableElement.style.display = "none";
+  canvasMenuLinkBtnElement.style.display = "none";
 }
 
 // animate sliding
@@ -303,3 +319,9 @@ playAgainBtnElement.addEventListener("click", start);
 gameOverMenuLinkBtnElement.addEventListener("click", main);
 aboutBtnElement.addEventListener("click", () => fadeAnimation(mainMenuTableElement, aboutBadgeElement, 300));
 closeAboutBtnElement.addEventListener("click", () => fadeAnimation(aboutBadgeElement, mainMenuTableElement, 300));
+
+// canvasMenuLinkBtnElement.addEventListener("click", function sayHello() {
+//   const name = "Bogdan";
+//   alert(`hello, ${name}`);
+//   return canvasMenuLinkBtnElement.removeEventListener("click", sayHello);
+// });
