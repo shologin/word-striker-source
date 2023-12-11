@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" translate="no">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Word Striker</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="game prevent-select">
+      <canvas id="canvas"></canvas>
+
+      <div class="info-table" id="infoTable">
+        <p class="info-scores">Scores: <span id="infoScores"></span></p>
+        <div id="lives"></div>
+      </div>
+
+      <button class="home-button" id="canvasMenuLinkBtn" style="display: none">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="32px" height="32px" fill="black">
+          <path
+            d="M 12 2.0996094 L 1 12 L 4 12 L 4 21 L 11 21 L 11 15 L 13 15 L 13 21 L 20 21 L 20 12 L 23 12 L 12 2.0996094 z M 12 4.7910156 L 18 10.191406 L 18 11 L 18 19 L 15 19 L 15 13 L 9 13 L 9 19 L 6 19 L 6 10.191406 L 12 4.7910156 z"
+          />
+        </svg>
+      </button>
+
+      <div class="main-menu glass-effect" id="mainMenuTable">
+        <h1>Word Striker</h1>
+        <button class="main-menu-playBtn" id="playBtn">Play</button>
+        <select class="main-menu-select" id="dictionarySelect"></select>
+        <button class="about-btn" id="aboutBtn">About</button>
+      </div>
+
+      <div class="about-badge glass-effect" style="display: none" id="aboutBadge">
+        <h2>About</h2>
+        <div class="about-badge-content">
+          <div class="about-badge-description">
+            <p>Boost up your typing skills with this game. Shoot the words as they appears.</p>
+            <p>If you have any suggestions about the game, feel free to contact me.</p>
+            <div class="about-badge-credentials">
+              <h4>Credits:</h4>
+              <p>
+                Animated background:
+                <a
+                  href="https://wweb.dev/resources/animated-css-background-generator"
+                  target="_blank"
+                  rel="noopener noreferrer nofollow"
+                  >wweb.dev</a
+                >
+              </p>
+              <p>
+                Glassmorphism:
+                <a href="https://css.glass/" target="_blank" rel="noopener noreferrer nofollow">css.glass</a>
+              </p>
+            </div>
+          </div>
+          <div class="about-badge-info">
+            <div>
+              <h4>Word Striker</h4>
+              <p>Version 1.0</p>
+            </div>
+            <div>
+              <a href="https://www.linkedin.com/in/shologin" target="_blank" rel="noopener noreferrer nofollow">
+                <img src="./assets/icons/linkedin_icon.svg" alt="linkedin" width="48" />
+              </a>
+              <a href="https://github.com/shologin" target="_blank" rel="noopener noreferrer nofollow">
+                <img src="./assets/icons/github_icon.svg" alt="github" width="48" />
+              </a>
+            </div>
+            <div>
+              <h4 id="author">Bogdan Shologin</h4>
+              <p>&copy; 2023 All rights reserved.</p>
+            </div>
+          </div>
+        </div>
+        <button class="about-badge-closeBtn" id="closeAboutBtn">&times;</button>
+      </div>
+
+      <div class="game-over glass-effect" id="gameOverTable">
+        <h2>Game over</h2>
+        <div class="game-over-scores">
+          <p>Your score: <span id="gameOverScore"></span></p>
+          <p>Highest: <span id="gameOverHighest"></span></p>
+        </div>
+        <div>
+          <button class="play-again-btn button" id="playAgainBtn">Play again</button>
+          <button class="game-over-menuBtn button" id="gameOverMenuLinkBtn">Main menu</button>
+        </div>
+      </div>
+    </div>
+    <div class="background z-1" id="background">
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>    
+    <script src="./main.js"></script>
+  </body>
+</html>
