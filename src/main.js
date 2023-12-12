@@ -27,9 +27,11 @@ const BACKGROUND_COLOR = "rgba(5, 22, 26, 0.2)"; // trails (need to use call cle
 // const BACKGROUND_COLOR = "#05161a";           // no trails
 const PROJECTILE_SPEED = 700;
 const BUBBLES_SPAWN_FREQUENCY = 1000;
-const BUBBLES_SPEED = 1;
+const BUBBLES_SPAWN_INCREASING_STEP = 50;
+const BUBBLES_SPAWN_FREQUENCY_CHANGING_STEP = 10000;
+const BUBBLES_SPEED = 1.3;
 const FREEZE_TIME = 4000;
-const FREEZE_CHECKPOINT_STEP = 30;
+const FREEZE_CHECKPOINT_STEP = 100;
 
 //establish dictionary manager
 const dictionariesManager = new DictionariesManager(dictionaries);
@@ -89,11 +91,18 @@ function start() {
 
   const bubbles = [];
   const projectiles = [];
+  let bubblesSpawnFrequency = BUBBLES_SPAWN_FREQUENCY;
   let intervalID;
   let animationFrameID;
 
   // spawning bubbles
-  intervalID = window.setInterval(spawnBubbles, BUBBLES_SPAWN_FREQUENCY);
+  intervalID = window.setInterval(spawnBubbles, bubblesSpawnFrequency);
+
+  // increasing bubbles spawning frequency
+  increasingSpawnFrequencyIntervalID = window.setInterval(() => {
+    bubblesSpawnFrequency -= BUBBLES_SPAWN_INCREASING_STEP;
+    console.log("frequency: ", bubblesSpawnFrequency / 1000);
+  }, BUBBLES_SPAWN_FREQUENCY_CHANGING_STEP);
 
   // animate game
   function animate() {
@@ -137,7 +146,7 @@ function start() {
         if (interface.getLives()) {
           livesElement.innerHTML = interface.getLives();
         } else {
-          gameOver(animationFrameID, intervalID, interface);
+          gameOver(animationFrameID, intervalID, increasingSpawnFrequencyIntervalID, interface);
         }
       }
 
@@ -174,11 +183,11 @@ function start() {
     setTimeout(() => {
       for (let i = bubbles.length - 1; i >= 0; i--) {
         const bubble = bubbles[i];
-        bubble.velocity.y = 1 * BUBBLES_SPEED;
+        bubble.velocity.y = bubble.text.length / -15 + BUBBLES_SPEED;
         snowflakeImgElement.style.display = "none";
       }
 
-      intervalID = window.setInterval(spawnBubbles, BUBBLES_SPAWN_FREQUENCY);
+      intervalID = window.setInterval(spawnBubbles, bubblesSpawnFrequency);
     }, FREEZE_TIME);
   }
 
@@ -206,7 +215,7 @@ function start() {
           },
           velocity: {
             x: 0,
-            y: 1 * BUBBLES_SPEED,
+            y: words[wordIndex].length / -15 + BUBBLES_SPEED,
           },
           text: words[wordIndex],
         })
@@ -301,6 +310,20 @@ function start() {
         break;
       case "Space":
         freeze();
+        const check = [...bubbles];
+        let min = check[0].velocity.y;
+        let max = 0;
+        let avg = 0;
+        check.forEach((el) => {
+          if (el.velocity.y < min) min = el.velocity.y;
+          if (el.velocity.y > max) max = el.velocity.y;
+          avg += el.velocity.y;
+        });
+        avg = avg / check.length;
+        // console.log("AVG: ", avg);
+        console.log("MIN: ", min);
+        console.log("MAX: ", max);
+
         break;
     }
   });
@@ -309,6 +332,7 @@ function start() {
   canvasMenuLinkBtnElement.addEventListener("click", function homepageClickHandle() {
     window.cancelAnimationFrame(animationFrameID);
     clearInterval(intervalID);
+    clearInterval(increasingSpawnFrequencyIntervalID);
     main();
     return canvasMenuLinkBtnElement.removeEventListener("click", homepageClickHandle);
   });
@@ -317,9 +341,10 @@ function start() {
 main();
 
 // game over
-function gameOver(animationFrameID, intervalID, interface) {
+function gameOver(animationFrameID, intervalID, increasingSpawnFrequencyIntervalID, interface) {
   window.cancelAnimationFrame(animationFrameID);
   clearInterval(intervalID);
+  clearInterval(increasingSpawnFrequencyIntervalID);
   gameOverTableElement.style.display = "flex";
   gameOverScoreElement.innerHTML = interface.getScores();
   gameOverHighestElement.innerHTML = interface.getHighScore();
