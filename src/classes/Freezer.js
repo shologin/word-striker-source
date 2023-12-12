@@ -33,8 +33,8 @@ class Freezer {
     if (this.__isFreezeReady) {
       return true;
     }
-    
-    return false
+
+    return false;
   }
 
   #checkIsReady() {
@@ -64,5 +64,9 @@ class Freezer {
         this.__isFreezed = false;
       }, this.__freezeTime);
     }
+  }
+
+  disableFreeze() {
+    this.__isFreezeReady = false;
   }
 }

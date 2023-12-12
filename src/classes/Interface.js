@@ -7,6 +7,8 @@ class Interface {
     this.__dictionaryName = dictionaryName;
     this.__highScore = localStorage.getItem(`${this.__dictionaryName}_high_score`) || 0;
     this.__wasNotified = false;
+    this.__lettersMatched = 0;
+    this.__lettersUnmatched = 0;
   }
 
   #draw() {
@@ -104,7 +106,7 @@ class Interface {
     this.__highScore = newHighScore;
   }
 
-  // show notification
+  // show freeze notification
   freezeNotification(element) {
     if (!this.__wasNotified) {
       element.style.display = "block";
@@ -115,5 +117,22 @@ class Interface {
   cleanFreezeNotification(element) {
     element.style.display = "none";
     console.log("notification cleaned");
+  }
+
+  // count matched letters and get accuracy
+  letterMatch() {
+    this.__lettersMatched++;
+  }
+
+  letterUnmatch() {
+    this.__lettersUnmatched++;
+  }
+
+  getAccuracy() {
+    console.log("matched: ", this.__lettersMatched);
+    console.log("unmatched: ", this.__lettersUnmatched);
+    const accuracy = (this.__lettersMatched / (this.__lettersMatched + this.__lettersUnmatched)) * 100 || 0;
+    console.log("accuracy: ", accuracy);
+    return `${Math.round(accuracy)}%`;
   }
 }

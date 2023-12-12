@@ -15,6 +15,7 @@ const closeAboutBtnElement = document.getElementById("closeAboutBtn");
 const gameOverTableElement = document.getElementById("gameOverTable");
 const gameOverScoreElement = document.getElementById("gameOverScore");
 const gameOverHighestElement = document.getElementById("gameOverHighest");
+const gameOverAccuracyElement = document.getElementById("gameOverAccuracy");
 const playAgainBtnElement = document.getElementById("playAgainBtn");
 const gameOverMenuLinkBtnElement = document.getElementById("gameOverMenuLinkBtn");
 const snowflakeImgElement = document.getElementById("snowflakeImg");
@@ -43,6 +44,7 @@ function main() {
   gameOverTableElement.style.display = "none";
   infoTableElement.style.display = "none";
   canvasMenuLinkBtnElement.style.display = "none";
+  freezeNotificationElement.style.display = "none";
   backgroundElement.style.display = "block";
   mainMenuTableElement.style.display = "flex";
 
@@ -148,7 +150,7 @@ function start() {
         if (interface.getLives()) {
           livesElement.innerHTML = interface.getLives();
         } else {
-          gameOver(animationFrameID, intervalID, increasingSpawnFrequencyIntervalID, interface);
+          gameOver(animationFrameID, intervalID, increasingSpawnFrequencyIntervalID, interface, freezer);
         }
       }
 
@@ -229,6 +231,7 @@ function start() {
 
   // handle shooting
   function findTarget(letter) {
+    let isMatched = false;
     for (let i = bubbles.length - 1; i >= 0; i--) {
       const bubble = bubbles[i];
 
@@ -236,7 +239,14 @@ function start() {
         shoot(bubble);
         bubble.increaseLetterIndex();
         bubble.changeColor();
+        isMatched = true;
       }
+    }
+
+    if (isMatched) {
+      interface.letterMatch();
+    } else {
+      interface.letterUnmatch();
     }
   }
 
@@ -314,6 +324,7 @@ function start() {
         break;
       case "Space":
         freeze();
+        interface.getAccuracy();
         break;
     }
   });
@@ -331,15 +342,18 @@ function start() {
 main();
 
 // game over
-function gameOver(animationFrameID, intervalID, increasingSpawnFrequencyIntervalID, interface) {
+function gameOver(animationFrameID, intervalID, increasingSpawnFrequencyIntervalID, interface, freezer) {
   window.cancelAnimationFrame(animationFrameID);
   clearInterval(intervalID);
   clearInterval(increasingSpawnFrequencyIntervalID);
+  freezer.disableFreeze();
   gameOverTableElement.style.display = "flex";
   gameOverScoreElement.innerHTML = interface.getScores();
   gameOverHighestElement.innerHTML = interface.getHighScore();
+  gameOverAccuracyElement.innerHTML = interface.getAccuracy();
   infoTableElement.style.display = "none";
   canvasMenuLinkBtnElement.style.display = "none";
+  freezeNotificationElement.style.display = "none";
 }
 
 // animate sliding
