@@ -174,6 +174,7 @@ function start() {
   // freeze feature
   function freeze() {
     if (!freezer.getIsFreezeReady()) {
+      freezer.notifyNotReady()
       return;
     }
 

@@ -6,6 +6,7 @@ class Freezer {
     this.__freezeCheckpoint = freezeCheckpointStep;
     this.__isFreezed = false;
     this.__isFreezeReady = false;
+    this.__notReadyAlert = false;
   }
 
   #draw() {
@@ -27,6 +28,7 @@ class Freezer {
 
   update(scores) {
     this.#alert();
+    this.#alertNotReady()
     this.#checkIsReady();
     this.__scores = scores;
 
@@ -64,7 +66,39 @@ class Freezer {
     }
   }
 
+  // disable freeze when game over
   disableFreeze() {
     this.__isFreezeReady = false;
+  }
+
+  // not ready alert
+  #drawNotReady() {
+    c.save();
+
+    c.beginPath();
+    c.strokeStyle = "gray";
+    c.lineWidth = 3;
+
+    c.shadowColor = "gray";
+    c.shadowBlur = 5;
+
+    c.strokeRect(0, 0, canvas.width, canvas.height);
+    c.stroke();
+    c.closePath();
+
+    c.restore();
+  }
+
+  #alertNotReady() {
+    if (this.__notReadyAlert) {
+      this.#drawNotReady();
+      setTimeout(() => {
+        this.__notReadyAlert = false;
+      }, 300);
+    }
+  }
+
+  notifyNotReady() {
+    this.__notReadyAlert = true
   }
 }
