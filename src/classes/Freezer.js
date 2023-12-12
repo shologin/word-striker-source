@@ -41,7 +41,6 @@ class Freezer {
     if (this.__scores >= this.__freezeCheckpoint) {
       this.__isFreezeReady = true;
       this.__freezeCheckpoint += this.__freezeCheckpointStep;
-      console.log("freeze is ready!");
     }
   }
 
@@ -53,7 +52,6 @@ class Freezer {
     this.__isFreezed = true;
     this.__isFreezeReady = false;
     this.#alert();
-    console.log("freezed");
   }
 
   #alert() {

@@ -97,6 +97,7 @@ function start() {
   let bubblesSpawnFrequency = BUBBLES_SPAWN_FREQUENCY;
   let intervalID;
   let animationFrameID;
+  let increasingSpawnFrequencyIntervalID;
 
   // spawning bubbles
   intervalID = window.setInterval(spawnBubbles, bubblesSpawnFrequency);
@@ -104,7 +105,11 @@ function start() {
   // increasing bubbles spawning frequency
   increasingSpawnFrequencyIntervalID = window.setInterval(() => {
     bubblesSpawnFrequency -= BUBBLES_SPAWN_INCREASING_STEP;
-    console.log("frequency: ", bubblesSpawnFrequency / 1000);
+
+    // prevent from getting to big frequency
+    if (bubblesSpawnFrequency === 200) {
+      window.clearInterval(increasingSpawnFrequencyIntervalID);
+    }
   }, BUBBLES_SPAWN_FREQUENCY_CHANGING_STEP);
 
   // animate game
@@ -169,7 +174,6 @@ function start() {
   // freeze feature
   function freeze() {
     if (!freezer.getIsFreezeReady()) {
-      console.log("not ready yet!");
       return;
     }
 
@@ -324,7 +328,6 @@ function start() {
         break;
       case "Space":
         freeze();
-        interface.getAccuracy();
         break;
     }
   });

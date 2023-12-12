@@ -116,7 +116,6 @@ class Interface {
 
   cleanFreezeNotification(element) {
     element.style.display = "none";
-    console.log("notification cleaned");
   }
 
   // count matched letters and get accuracy
@@ -128,11 +127,8 @@ class Interface {
     this.__lettersUnmatched++;
   }
 
-  getAccuracy() {
-    console.log("matched: ", this.__lettersMatched);
-    console.log("unmatched: ", this.__lettersUnmatched);
+  getAccuracy() {    
     const accuracy = (this.__lettersMatched / (this.__lettersMatched + this.__lettersUnmatched)) * 100 || 0;
-    console.log("accuracy: ", accuracy);
     return `${Math.round(accuracy)}%`;
   }
 }
