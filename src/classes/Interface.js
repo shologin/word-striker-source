@@ -1,16 +1,12 @@
 class Interface {
-  constructor({ scores, lives, dictionaryName, freezeTime, freezeCheckpoint, freezeCheckpointStep }) {
+  constructor({ scores, lives, dictionaryName }) {
     this.style = { fillStyle: "red", shadowColor: "red" };
     this.__isBubbleMissed = false;
     this.__scores = scores;
     this.__lives = lives;
     this.__dictionaryName = dictionaryName;
     this.__highScore = localStorage.getItem(`${this.__dictionaryName}_high_score`) || 0;
-    // this.__freezeTime = freezeTime;
-    // this.__isFreezed = false;
-    // this.__isFreezeReady = false;
-    // this.__freezeCheckpoint = freezeCheckpoint;
-    // this.__freezeCheckpointStep = freezeCheckpointStep;
+    this.__wasNotified = false;
   }
 
   #draw() {
@@ -31,7 +27,7 @@ class Interface {
   }
 
   update() {
-    this.#alert();    
+    this.#alert();
   }
 
   #alert() {
@@ -106,5 +102,18 @@ class Interface {
   #setHighScore(newHighScore) {
     localStorage.setItem(`${this.__dictionaryName}_high_score`, newHighScore);
     this.__highScore = newHighScore;
+  }
+
+  // show notification
+  freezeNotification(element) {
+    if (!this.__wasNotified) {
+      element.style.display = "block";
+      this.__wasNotified = true;
+    }
+  }
+
+  cleanFreezeNotification(element) {
+    element.style.display = "none";
+    console.log("notification cleaned");
   }
 }

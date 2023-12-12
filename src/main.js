@@ -19,6 +19,7 @@ const playAgainBtnElement = document.getElementById("playAgainBtn");
 const gameOverMenuLinkBtnElement = document.getElementById("gameOverMenuLinkBtn");
 const snowflakeImgElement = document.getElementById("snowflakeImg");
 const snowflakeIconElement = document.getElementById("snowflakeIcon");
+const freezeNotificationElement = document.getElementById("freezeNotification");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -114,6 +115,7 @@ function start() {
     interface.update();
     if (freezer.update(interface.getScores())) {
       snowflakeIconElement.style.display = "block";
+      interface.freezeNotification(freezeNotificationElement);
     }
 
     // handle projectiles
@@ -189,6 +191,8 @@ function start() {
 
       intervalID = window.setInterval(spawnBubbles, bubblesSpawnFrequency);
     }, FREEZE_TIME);
+
+    interface.cleanFreezeNotification(freezeNotificationElement);
   }
 
   // spawn bubbles function
@@ -310,20 +314,6 @@ function start() {
         break;
       case "Space":
         freeze();
-        const check = [...bubbles];
-        let min = check[0].velocity.y;
-        let max = 0;
-        let avg = 0;
-        check.forEach((el) => {
-          if (el.velocity.y < min) min = el.velocity.y;
-          if (el.velocity.y > max) max = el.velocity.y;
-          avg += el.velocity.y;
-        });
-        avg = avg / check.length;
-        // console.log("AVG: ", avg);
-        console.log("MIN: ", min);
-        console.log("MAX: ", max);
-
         break;
     }
   });
