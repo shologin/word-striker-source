@@ -1,11 +1,16 @@
 class Interface {
-  constructor({ scores, lives, dictionaryName }) {
+  constructor({ scores, lives, dictionaryName, freezeTime, freezeCheckpoint, freezeCheckpointStep }) {
     this.style = { fillStyle: "red", shadowColor: "red" };
     this.__isBubbleMissed = false;
     this.__scores = scores;
     this.__lives = lives;
     this.__dictionaryName = dictionaryName;
     this.__highScore = localStorage.getItem(`${this.__dictionaryName}_high_score`) || 0;
+    // this.__freezeTime = freezeTime;
+    // this.__isFreezed = false;
+    // this.__isFreezeReady = false;
+    // this.__freezeCheckpoint = freezeCheckpoint;
+    // this.__freezeCheckpointStep = freezeCheckpointStep;
   }
 
   #draw() {
@@ -26,7 +31,7 @@ class Interface {
   }
 
   update() {
-    this.#alert();
+    this.#alert();    
   }
 
   #alert() {

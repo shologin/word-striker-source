@@ -1,3 +1,21 @@
+:root {
+  --white-0: white;
+  --black-0: black;
+  --black-1: rgba(0, 0, 0, 0.28);
+  --black-2: rgba(0, 0, 0, 0.1);
+  --black-3: rgba(0, 0, 0, 0.51);
+  --gray-1: #71717a;
+  --gray-2: #52525b;
+  --gray-3: #a1a1aa;
+  --gray-4: #3f3f46;
+  --gray-5: #a3a3a3;
+  --gray-6: #171717;
+  --blue-1: #0174be;
+  --green-1: rgba(6, 88, 47, 0.8);
+  --aegean-1: #294d61;
+  --orange-1: #ec9704;
+}
+
 h1,
 h2,
 h3,
@@ -15,11 +33,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
   font-size: 1.25rem; /* 20px */
   line-height: 1.75rem; /* 28px */
-  color: white;
+  color: var(--white-0);
 }
 
 a {
-  color: #71717a;
+  color: var(--gray-1);
 }
 
 .game {
@@ -46,14 +64,14 @@ a {
 
 .home-button:hover,
 .home-button:hover svg {
-  border-color: #52525b;
-  fill: #52525b;
+  border-color: var(--gray-2);
+  fill: var(--gray-2);
 }
 
 .home-button:active,
 .home-button:active svg {
-  border-color: white;
-  fill: white;
+  border-color: var(--white-0);
+  fill: var(--white-0);
 }
 
 /* info table */
@@ -74,6 +92,22 @@ a {
   height: 24px;
 }
 
+/* snowflake image */
+.snowflake-image {
+  position: absolute;
+  top: 50vh;
+  right: -10%;
+  transform: translateY(-50%);
+  opacity: 0.15;
+  width: 90vh;
+  height: 90vh;
+}
+
+.snowflake-image svg {
+  width: 100%;
+  height: 100%;
+}
+
 /* main menu */
 .main-menu {
   display: flex;
@@ -87,7 +121,7 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--black-1);
 
   @media screen and (max-width: 560px) {
     width: 260px;
@@ -103,7 +137,7 @@ a {
   padding: 18px 36px;
   margin-bottom: 15px;
   border-radius: 36px;
-  background: #294d61;
+  background: var(--aegean-1);
   font-size: 1.5rem; /* 24px */
   line-height: 2rem; /* 32px */
   border: none;
@@ -123,7 +157,7 @@ a {
   z-index: -1;
   width: 0%;
   height: 100%;
-  background: rgba(6, 88, 47, 0.8);
+  background: var(--green-1);
 }
 
 .main-menu-playBtn:hover::after {
@@ -137,7 +171,7 @@ a {
   padding: 4px 6px;
   border: none;
   border-radius: 8px;
-  background: #a1a1aa;
+  background: var(--gray-3);
   outline: none;
   font-size: 0.875rem; /* 14px */
   line-height: 1.25rem; /* 20px */
@@ -147,18 +181,18 @@ a {
   padding: 4px 16px;
   margin: 0 auto;
   border-radius: 18px;
-  color: #a1a1aa;
+  color: var(--gray-3);
   font-size: 0.875rem; /* 14px */
   line-height: 1.25rem; /* 20px */
   background: transparent;
-  border: 2px solid #52525b;
+  border: 2px solid var(--gray-2);
   cursor: pointer;
   transition: all 0.08s ease;
 }
 
 .about-btn:hover {
   color: inherit;
-  border-color: white;
+  border-color: var(--white-0);
 }
 
 /* about author badge */
@@ -175,7 +209,7 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--black-1);
 
   @media screen and (max-width: 560px) {
     width: 260px;
@@ -185,9 +219,9 @@ a {
 }
 
 .about-badge-closeBtn {
-  color: #52525b;
+  color: var(--gray-2);
   background: transparent;
-  border: 1px solid #52525b;
+  border: 1px solid var(--gray-2);
   border-radius: 4px;
   padding: 2px 12px;
   font-size: 32px;
@@ -199,8 +233,8 @@ a {
 }
 
 .about-badge-closeBtn:hover {
-  border-color: white;
-  color: white;
+  border-color: var(--white-0);
+  color: var(--white-0);
 }
 
 .about-badge-content {
@@ -249,7 +283,7 @@ a {
   left: 50%;
   transform: translate(-50%, -50%);
   border-radius: 16px;
-  border: 1px solid rgba(0, 0, 0, 0.28);
+  border: 1px solid var(--black-1);
 }
 
 .game-over h2 {
@@ -279,7 +313,7 @@ a {
   color: inherit;
   font-size: 1.125rem; /* 18px */
   line-height: 1.75rem; /* 28px */
-  background: #3f3f46;
+  background: var(--gray-4);
 }
 
 .play-again-btn:active {
@@ -294,7 +328,7 @@ a {
   color: #a1a1aa;
   font-size: 1rem; /* 16px */
   line-height: 1.5rem; /* 24px */
-  background: #3f3f46;
+  background: var(--gray-4);
 }
 
 .game-over-menuBtn:hover,
@@ -304,8 +338,8 @@ a {
 
 /* helpers */
 .glass-effect {
-  background: rgba(0, 0, 0, 0.51);
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  background: var(--black-3);
+  box-shadow: 0 4px 30px var(--black-2);
   backdrop-filter: blur(8.7px);
   -webkit-backdrop-filter: blur(8.7px);
 }
@@ -316,12 +350,12 @@ a {
 }
 
 .button:hover {
-  background: #52525b;
+  background: var(--gray-2);
 }
 
 .button:active {
-  color: #a3a3a3;
-  background: #171717;
+  color: var(--gray-5);
+  background: var(--gray-6);
 }
 
 .prevent-select {
@@ -332,7 +366,7 @@ a {
 
 .new-record-badge {
   display: block;
-  background: #ec9704;
+  background: var(--orange-1);
   padding: 2px 8px;
   border-radius: 36px;
   text-align: center;

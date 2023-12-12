@@ -9,7 +9,6 @@ const canvasMenuLinkBtnElement = document.getElementById("canvasMenuLinkBtn");
 const playBtnElement = document.getElementById("playBtn");
 const aboutBtnElement = document.getElementById("aboutBtn");
 const mainMenuTableElement = document.getElementById("mainMenuTable");
-const authorElement = document.getElementById("author");
 const dictionarySelectElement = document.getElementById("dictionarySelect");
 const aboutBadgeElement = document.getElementById("aboutBadge");
 const closeAboutBtnElement = document.getElementById("closeAboutBtn");
@@ -18,6 +17,8 @@ const gameOverScoreElement = document.getElementById("gameOverScore");
 const gameOverHighestElement = document.getElementById("gameOverHighest");
 const playAgainBtnElement = document.getElementById("playAgainBtn");
 const gameOverMenuLinkBtnElement = document.getElementById("gameOverMenuLinkBtn");
+const snowflakeImgElement = document.getElementById("snowflakeImg");
+const snowflakeIconElement = document.getElementById("snowflakeIcon");
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -27,6 +28,8 @@ const BACKGROUND_COLOR = "rgba(5, 22, 26, 0.2)"; // trails (need to use call cle
 const PROJECTILE_SPEED = 700;
 const BUBBLES_SPAWN_FREQUENCY = 1000;
 const BUBBLES_SPEED = 1;
+const FREEZE_TIME = 4000;
+const FREEZE_CHECKPOINT_STEP = 30;
 
 //establish dictionary manager
 const dictionariesManager = new DictionariesManager(dictionaries);
@@ -54,18 +57,26 @@ dictionarySelectElement.addEventListener("change", (event) => {
 
 // start game
 function start() {
-  // author check
-  if (authorElement.innerHTML !== "Bogdan Shologin") return;
-
   // hide tables
   canvas.style.display = "block";
   backgroundElement.style.display = "none";
   mainMenuTableElement.style.display = "none";
   gameOverTableElement.style.display = "none";
+  snowflakeIconElement.style.display = "none";
+  snowflakeImgElement.style.display = "none";
   infoTableElement.style.display = "block";
   canvasMenuLinkBtnElement.style.display = "block";
 
-  const interface = new Interface({ scores: 0, lives: 3, dictionaryName: dictionariesManager.getDictionaryName() });
+  const interface = new Interface({
+    scores: 0,
+    lives: 3,
+    dictionaryName: dictionariesManager.getDictionaryName(),
+  });
+  const freezer = new Freezer({
+    scores: interface.getScores(),
+    freezeTime: FREEZE_TIME,
+    freezeCheckpointStep: FREEZE_CHECKPOINT_STEP,
+  });
   const player = new Player({ position: { x: canvas.width / 2, y: canvas.height }, radius: 125 });
   const cleaner = new Cleaner();
 
@@ -78,39 +89,11 @@ function start() {
 
   const bubbles = [];
   const projectiles = [];
+  let intervalID;
   let animationFrameID;
 
   // spawning bubbles
-  const intervalID = window.setInterval(() => {
-    const positionX = Math.random() * canvas.width;
-    const wordIndex = Math.floor(Math.random() * words.length);
-
-    const currentWords = [];
-
-    // prevent from rendering similar words
-    for (let i = bubbles.length - 1; i >= 0; i--) {
-      const bubble = bubbles[i];
-      if (!currentWords.includes(bubble.text)) {
-        currentWords.push(bubble.text);
-      }
-    }
-    // create bubbles
-    if (!currentWords.includes(words[wordIndex]) && positionX > 50 && positionX < canvas.width - 70) {
-      bubbles.push(
-        new Bubble({
-          position: {
-            x: positionX,
-            y: -50,
-          },
-          velocity: {
-            x: 0,
-            y: 1 * BUBBLES_SPEED,
-          },
-          text: words[wordIndex],
-        })
-      );
-    }
-  }, BUBBLES_SPAWN_FREQUENCY);
+  intervalID = window.setInterval(spawnBubbles, BUBBLES_SPAWN_FREQUENCY);
 
   // animate game
   function animate() {
@@ -120,6 +103,9 @@ function start() {
     c.fillRect(0, 0, canvas.width, canvas.height);
     player.draw();
     interface.update();
+    if (freezer.update(interface.getScores())) {
+      snowflakeIconElement.style.display = "block";
+    }
 
     // handle projectiles
     for (let i = projectiles.length - 1; i >= 0; i--) {
@@ -166,6 +152,67 @@ function start() {
   }
 
   animate();
+
+  // freeze feature
+  function freeze() {
+    if (!freezer.getIsFreezeReady()) {
+      console.log("not ready yet!");
+      return;
+    }
+
+    snowflakeIconElement.style.display = "none";
+    snowflakeImgElement.style.display = "block";
+
+    freezer.setFreezed();
+    clearInterval(intervalID);
+
+    for (let i = bubbles.length - 1; i >= 0; i--) {
+      const bubble = bubbles[i];
+      bubble.velocity.y = 0;
+    }
+
+    setTimeout(() => {
+      for (let i = bubbles.length - 1; i >= 0; i--) {
+        const bubble = bubbles[i];
+        bubble.velocity.y = 1 * BUBBLES_SPEED;
+        snowflakeImgElement.style.display = "none";
+      }
+
+      intervalID = window.setInterval(spawnBubbles, BUBBLES_SPAWN_FREQUENCY);
+    }, FREEZE_TIME);
+  }
+
+  // spawn bubbles function
+  function spawnBubbles() {
+    const positionX = Math.random() * canvas.width;
+    const wordIndex = Math.floor(Math.random() * words.length);
+
+    const currentWords = [];
+
+    // prevent from rendering similar words
+    for (let i = bubbles.length - 1; i >= 0; i--) {
+      const bubble = bubbles[i];
+      if (!currentWords.includes(bubble.text)) {
+        currentWords.push(bubble.text);
+      }
+    }
+    // create bubbles
+    if (!currentWords.includes(words[wordIndex]) && positionX > 50 && positionX < canvas.width - 70) {
+      bubbles.push(
+        new Bubble({
+          position: {
+            x: positionX,
+            y: -50,
+          },
+          velocity: {
+            x: 0,
+            y: 1 * BUBBLES_SPEED,
+          },
+          text: words[wordIndex],
+        })
+      );
+    }
+  }
 
   // handle shooting
   function findTarget(letter) {
@@ -253,7 +300,7 @@ function start() {
         findTarget("5");
         break;
       case "Space":
-        console.log("Hello there!");
+        freeze();
         break;
     }
   });
